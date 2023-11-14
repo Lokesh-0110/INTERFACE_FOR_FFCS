@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Option Selector</title>
+</head>
+<h1>FFCS-HELPER</h1>
+<body>
+    <h2>Select Options:</h2>
+    
+    <h3>Teachers for web Programming</h3>
+    <form id="optionForm1">
+        <label>
+            <input type="checkbox" name="options" value="1"> "Dhavakumar.Puma": ["TG2", "L7","L8","L23","L24"]
+        </label>
+        <br>    
+        <label>
+            <input type="checkbox" name="options" value="2"> "Rama Parvathy Loki": ["TG2", "L21","L22","L29","L30"]
+        </label>
+        <br>    
+        <label>
+            <input type="checkbox" name="options" value="3"> "M.Marimuthu": ["TG2", "L7","L8","L23","L24"]
+        </label>
+        <br>    
+        <label>
+            <input type="checkbox" name="options" value="4"> "S.Prabu": ["TG2", "L9","L10","L25","L26"]
+        </label>
+        <br>    
+        <label>
+            <input type="checkbox" name="options" value="5"> "A.B.Ahadit": ["TG2", "L3","L4","L27","L28"]
+        </label>
+
+        <button type="button" onclick="saveToFile(1)">Save to File</button>
+    </form>
+
+    <!-- Add similar forms for other questions... -->
+    <h3>Teachers for Database Systems</h3>
+    <form id="optionForm2">
+        <!-- Options for Question 2... -->
+        <label>
+            <input type="checkbox" name="options" value="6"> "Muralidhar": ["D2","TD2","L1","L2"]
+        </label>
+        <br>
+        <label>
+            <input type="checkbox" name="options" value="7"> "Jani Anbarasi L": ["D2","TD2","L19","L20"]
+        </label>
+        <br>
+        <label>
+            <input type="checkbox" name="options" value="8"> "Abishi Chowdhury": ["D2","TD2","L25","L26"]
+        </label>
+        <br>    
+        <label>
+            <input type="checkbox" name="options" value="9"> "Leninisha Shanmugam": ["D2","TD2","L27","L28"]
+        </label>
+        <br>    
+        <label>
+            <input type="checkbox" name="options" value="10"> "L.M. Jenila Livingston": ["D2","TD2","L9","L10"],
+        </label>
+
+        <button type="button" onclick="saveToFile(2)">Save to File</button>
+    </form>
+
+    <h3>Teachers for Computer Architecture and Organization</h3>
+    <form id="optionForm3">
+        <!-- Options for Question 3... -->
+        <label>
+            <input type="checkbox" name="options" value="11"> "Menaka Pushpa": ["F2","TF2"]
+        </label>
+        <br>
+        <label>
+            <input type="checkbox" name="options" value="12"> "R.Renuka Devi": ["F2","TF2"]
+        </label>
+        <button type="button" onclick="saveToFile(3)">Save to File</button>
+    </form>
+
+    <h3>Teachers for Machine Learning</h3>
+    <form id="optionForm4">
+        <!-- Options for Question 3... -->
+        <label>
+            <input type="checkbox" name="options" value="13"> "SAJIDHA S A": ["C1","TC1","L51","L52"]
+        </label>
+        <br>
+        <label>
+            <input type="checkbox" name="options" value="14"> "SAJIDHA S A": ["C2","TC2","L21","L22"]
+        </label>
+        <br>
+        <label>
+            <input type="checkbox" name="options" value="15"> "Priyadarshini.J": ["C2","TC2","L21","L22"]
+        </label>
+
+        <button type="button" onclick="saveToFile(4)">Save to File</button>
+    </form>
+
+    <h3>Teachers for Complex variables and linear algebra</h3>
+    <form id="optionForm5">
+        <!-- Options for Question 3... -->
+        <label>
+            <input type="checkbox" name="options" value="16"> "COMPLEX": ["A2","TA2","TAA2"]
+        </label>
+        <br>
+        <label>
+            <input type="checkbox" name="options" value="17"> "COMPLEX1": ["A2","TA2","TAA2"]
+        </label>
+        
+        <button type="button" onclick="saveToFile(5)">Save to File</button>
+    </form>
+    
+    <h3>Teachers for Operating Systems</h3>
+    <form id="optionForm6">
+        <!-- Options for Question 3... -->
+        <label>
+            <input type="checkbox" name="options" value="18"> "OS": ["E2","TE2","L3","L4"]
+        </label>
+        <br>
+        <label>
+            <input type="checkbox" name="options" value="19"> "OS1": ["E2","TE2","L3","L4"]
+        </label>
+
+        <button type="button" onclick="saveToFile(6)">Save to File</button>
+    </form>
+
+    <h3>Teachers for sts</h3>
+    <form id="optionForm7">
+        <!-- Options for Question 3... -->
+        <label>
+            <input type="checkbox" name="options" value="20"> "FACE": ["B2","TB2"]
+        </label>
+
+        <button type="button" onclick="saveToFile(7)">Save to File</button>
+    </form>
+
+    
+   
+
+    
+
+    <!-- Final Submit All button -->
+    <button type="button" onclick="submitAll()">Submit All</button>
+
+    <script>
+        function saveToFile(questionId) {
+            console.log(`Save to File button clicked for Question ${questionId}`);
+            const selectedOptions = document.querySelectorAll(`#optionForm${questionId} input[name="options"]:checked`);
+
+            if (selectedOptions.length === 0) {
+                alert(`Please select at least one option for Question ${questionId} before saving.`);
+                return;
+            }
+
+            const selectedValues = Array.from(selectedOptions).map(option => option.value);
+
+            // Make a POST request to save the options to the server
+            fetch('/saveToFile', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ questionId, options: selectedValues }),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert(data.message);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        function submitAll() {
+            console.log('Submit All button clicked');
+            // Make a POST request to submit all saved options and trigger the Python script
+            fetch('/submitAll', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({}),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert(data.message);
+                // Redirect to http://localhost:5173 after running the Python script
+                window.location.href = 'http://localhost:5173';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
